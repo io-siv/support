@@ -1,0 +1,13 @@
+io/siv/support/annotation/RunTemplate.class
+io/siv/support/service/ConnectionFactory.class
+io/siv/support/service/ConnectionBuilder.class
+io/siv/support/util/Loader.class
+io/siv/support/util/Task.class
+io/siv/support/util/Waiter.class
+io/siv/support/service/Connection.class
+io/siv/support/util/Sleep.class
+io/siv/support/annotation/TemplateProcessor.class
+io/siv/support/annotation/SourceWriter.class
+io/siv/support/annotation/Target.class
+io/siv/support/service/ConnectionImpl.class
+META-INF/services/javax.annotation.processing.Processor
