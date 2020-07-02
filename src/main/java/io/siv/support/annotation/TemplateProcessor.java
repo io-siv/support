@@ -28,7 +28,7 @@ import javax.tools.JavaFileObject;
 import io.siv.support.util.Loader;
 import com.google.auto.service.AutoService;
 
-@SupportedAnnotationTypes("com.bah.studio.support.annotation.RunTemplate")
+@SupportedAnnotationTypes("io.siv.support.annotation.RunTemplate")
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 class TemplateProcessor extends AbstractProcessor {
