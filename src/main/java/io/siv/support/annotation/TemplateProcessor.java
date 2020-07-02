@@ -50,19 +50,17 @@ class TemplateProcessor extends AbstractProcessor {
 			int processed = 0;
 			int created = 0;
 			for (Element e : roundEnv.getElementsAnnotatedWith(RunTemplate.class)) {
-				if (e.getKind() == ElementKind.INTERFACE || e.getKind() == ElementKind.CLASS) {
+				if (e.getKind() == ElementKind.INTERFACE) {
 					processed++;
 
 					TypeElement classElement = (TypeElement) e;
 					PackageElement packageElement = (PackageElement) classElement.getEnclosingElement();
-					String extender = e.getKind() == ElementKind.INTERFACE ? "CucumberConfig"
-							: classElement.getSimpleName().toString();
 
 					System.out.println("@RunTemplate found as: " + classElement.getSimpleName());
 					System.out.println("Package for generated source: " + packageElement.getQualifiedName());
 
 					for (Target t : targets(e)) {
-						createSource(classElement.getSimpleName(), packageElement.getQualifiedName(), t, extender);
+						createSource(classElement.getSimpleName(), packageElement.getQualifiedName(), t, "CucumberConfig");
 						created++;
 					}
 				}
