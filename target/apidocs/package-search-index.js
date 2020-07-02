@@ -1,1 +1,0 @@
-packageSearchIndex = [{"l":"All Packages","url":"allpackages-index.html"},{"l":"io.siv.support.annotation"},{"l":"io.siv.support.service"},{"l":"io.siv.support.util"}]
