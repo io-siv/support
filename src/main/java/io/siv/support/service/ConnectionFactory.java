@@ -44,19 +44,20 @@ public final class ConnectionFactory {
 				 * the pom.xml <forkCount>, .json or .properties, and any manually
 				 * created @RunWith files all in sync.
 				 */
-				.withProperty("device", System.getProperty("studio.target.device"))
-				.withProperty("browser", System.getProperty("studio.target.browser"))
-				.withProperty("browserName", System.getProperty("studio.target.browserName"))
-				.withProperty("browser_version", System.getProperty("studio.target.browserVersion"))
-				.withProperty("os", System.getProperty("studio.target.os"))
-				.withProperty("os_version", System.getProperty("studio.target.osVersion"))
-				.withProperty("acceptSslCerts", System.getProperty("studio.target.acceptSslCerts"))
-				.withProperty("real_mobile", System.getProperty("studio.target.realMobile"))
-				.withProperty("browserstack.appium_version", System.getProperty("stydio.target.appium"))
-				/*TODO finish parsing .withProperty("xxx", System.getProperty("studio.target.custom"))*/
+				.withProperty("device", System.getProperty("studio.gizmo.device"))
+				.withProperty("browser", System.getProperty("studio.gizmo.browser"))
+				.withProperty("browserName", System.getProperty("studio.gizmo.browserName"))
+				.withProperty("browser_version", System.getProperty("studio.gizmo.browserVersion"))
+				.withProperty("os", System.getProperty("studio.gizmo.os"))
+				.withProperty("os_version", System.getProperty("studio.gizmo.osVersion"))
+				.withProperty("acceptSslCerts", System.getProperty("studio.gizmo.acceptSslCerts"))
+				.withProperty("real_mobile", System.getProperty("studio.gizmo.realMobile"))
+				.withProperty("browserstack.appium_version", System.getProperty("stydio.gizmo.appium"))
+				.withProperty("browserstack.selenium_version", System.getProperty("studio.gizmo.seleniumVersion"))
+				/*TODO finish parsing .withProperty("xxx", System.getProperty("studio.gizmo.custom"))*/
 
 				// Automagically loaded by Studio * Important !! Do not change this unless you know why
-				.withProperty("browserstack.localIdentifier", System.getProperty("studio.target.name"))
+				.withProperty("browserstack.localIdentifier", System.getProperty("studio.gizmo.name"))
 
 				// Configured with from src/test/resources/studio.properties
 				.withProperty("studio.browserstack.context", p.getProperty("studio.browserstack.context"))

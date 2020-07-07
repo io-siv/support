@@ -11,18 +11,18 @@ class SourceWriter {
 
 	private static final BiFunction<Integer, String, String> spacing = (n, s) -> String.format("%" + n + "s%s", "", s);
 
-	public static void write(JavaFileObject jfo, String clazz, Name pack, Target t, String extender) {
+	public static void write(JavaFileObject jfo, String className, Name packageName, Gizmo gizmo, String extender) {
 		if (null != jfo) {
 			try {
 				BufferedWriter bw = new BufferedWriter(jfo.openWriter());
-				write(bw, clazz, pack, t, extender);
+				write(bw, className, packageName, gizmo, extender);
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 		}
 	}
 
-	private static void write(BufferedWriter bw, String clazz, Name pack, Target t, String extender) throws IOException {
+	private static void write(BufferedWriter bw, String clazz, Name pack, Gizmo t, String extender) throws IOException {
 		bw.append("package ").append(pack).append(";");
 		bw.newLine();
 		bw.newLine();
@@ -42,34 +42,34 @@ class SourceWriter {
 		bw.append(spacing.apply(4, "public static void before() {"));
 		bw.newLine();
 
-		bw.append(spacing.apply(8, "System.setProperty(\"studio.target.acceptSslCerts\", \"")).append("" + t.acceptSslCerts()).append("\");");
+		bw.append(spacing.apply(8, "System.setProperty(\"studio.gizmo.acceptSslCerts\", \"")).append("" + t.acceptSslCerts()).append("\");");
 		bw.newLine();
 		
-		bw.append(spacing.apply(8, "System.setProperty(\"studio.target.name\", \"")).append(clazz).append("\");");
+		bw.append(spacing.apply(8, "System.setProperty(\"studio.gizmo.name\", \"")).append(clazz).append("\");");
 		bw.newLine();
 
-		bw.append(spacing.apply(8, "System.setProperty(\"studio.target.os\", \"")).append(t.os()).append("\");");
+		bw.append(spacing.apply(8, "System.setProperty(\"studio.gizmo.os\", \"")).append(t.os()).append("\");");
 		bw.newLine();
 
-		bw.append(spacing.apply(8, "System.setProperty(\"studio.target.osVersion\", \"")).append(t.osVersion()).append("\");");
+		bw.append(spacing.apply(8, "System.setProperty(\"studio.gizmo.osVersion\", \"")).append(t.osVersion()).append("\");");
 		bw.newLine();
 
-		bw.append(spacing.apply(8, "System.setProperty(\"studio.target.browser\", \"")).append(t.browser()).append("\");");
+		bw.append(spacing.apply(8, "System.setProperty(\"studio.gizmo.browser\", \"")).append(t.browser()).append("\");");
 		bw.newLine();
 		
-		bw.append(spacing.apply(8, "System.setProperty(\"studio.target.browserName\", \"")).append(t.browserName()).append("\");");
+		bw.append(spacing.apply(8, "System.setProperty(\"studio.gizmo.browserName\", \"")).append(t.browserName()).append("\");");
 		bw.newLine();
 
-		bw.append(spacing.apply(8, "System.setProperty(\"studio.target.browserVersion\", \"")).append(t.browserVersion()).append("\");");
+		bw.append(spacing.apply(8, "System.setProperty(\"studio.gizmo.browserVersion\", \"")).append(t.browserVersion()).append("\");");
 		bw.newLine();
 		
-		bw.append(spacing.apply(8, "System.setProperty(\"studio.target.device\", \"")).append(t.device()).append("\");");
+		bw.append(spacing.apply(8, "System.setProperty(\"studio.gizmo.device\", \"")).append(t.device()).append("\");");
 		bw.newLine();
 
-		bw.append(spacing.apply(8, "System.setProperty(\"studio.target.realMobile\", \"")).append(t.realMobile() ? "true" : "false").append("\");");
+		bw.append(spacing.apply(8, "System.setProperty(\"studio.gizmo.realMobile\", \"")).append(t.realMobile() ? "true" : "false").append("\");");
 		bw.newLine();
 		
-		bw.append(spacing.apply(8, "System.setProperty(\"studio.target.appium\", \"")).append(t.appium()).append("\");");
+		bw.append(spacing.apply(8, "System.setProperty(\"studio.gizmo.appium\", \"")).append(t.appium()).append("\");");
 		bw.newLine();
 		
 		StringBuilder b = new StringBuilder("");

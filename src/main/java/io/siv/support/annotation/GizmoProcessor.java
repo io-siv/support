@@ -1,18 +1,11 @@
-/*
- * Inspired by ->
- * 		https://www.baeldung.com/java-annotation-processing-builder
- * 		https://www.youtube.com/watch?v=xswPPwYPAFM
- */
 package io.siv.support.annotation;
 
 import static io.siv.support.annotation.SourceWriter.write;
 
 import java.io.IOException;
-import java.util.Properties;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
@@ -25,44 +18,39 @@ import javax.lang.model.element.PackageElement;
 import javax.lang.model.element.TypeElement;
 import javax.tools.JavaFileObject;
 
-import io.siv.support.util.Loader;
 import com.google.auto.service.AutoService;
 
-@SupportedAnnotationTypes("io.siv.support.annotation.RunTemplate")
+@SupportedAnnotationTypes({ "io.siv.support.annotation.GizmoStratagem", "io.siv.support.annotation.Gizmo" })
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
-class TemplateProcessor extends AbstractProcessor {
-
-	@Override
-	public synchronized void init(ProcessingEnvironment processingEnv) {
-		super.init(processingEnv);
-		Properties p = Loader.propertiesForFileKey("support");
-		String title = p.getProperty("studio.log.title");
-		String warning = p.getProperty("studio.log.warning");
-		System.out.println(title + warning);
-	}
+public class GizmoProcessor extends AbstractProcessor {
 
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		Set<? extends Element> templates = roundEnv.getElementsAnnotatedWith(RunTemplate.class);
+		Set<? extends Element> elements = roundEnv
+				.getElementsAnnotatedWithAny(Set.of(GizmoStratagem.class, Gizmo.class));
 
-		if (templates.size() > 0) {
+		System.out.println("@Override process() template: " + elements);
+
+		if (elements.size() > 0) {
 			int processed = 0;
 			int created = 0;
-			for (Element e : roundEnv.getElementsAnnotatedWith(RunTemplate.class)) {
-				if (e.getKind() == ElementKind.INTERFACE) {
-					processed++;
 
+			for (Element e : elements) {
+				System.out.println("element: " + e);
+				if (e.getKind() == ElementKind.CLASS) {
 					TypeElement classElement = (TypeElement) e;
 					PackageElement packageElement = (PackageElement) classElement.getEnclosingElement();
 
-					System.out.println("@RunTemplate found as: " + classElement.getSimpleName());
-					System.out.println("Package for generated source: " + packageElement.getQualifiedName());
+					System.out.println("Processing " + classElement.getSimpleName() + " as model Runner");
+					System.out.println("Runners packaged in: " + packageElement.getQualifiedName());
 
-					for (Target t : targets(e)) {
-						createSource(classElement.getSimpleName(), packageElement.getQualifiedName(), t, "CucumberConfig");
+					for (Gizmo g : e.getAnnotationsByType(Gizmo.class)) {
+						createSource(classElement.getSimpleName(), packageElement.getQualifiedName(), g);
 						created++;
 					}
+
+					processed++;
 				}
 			}
 
@@ -73,16 +61,17 @@ class TemplateProcessor extends AbstractProcessor {
 		return false;
 	}
 
-	private Target[] targets(Element e) {
-		return e.getAnnotation(RunTemplate.class).value();
+	private void createSource(Name className, Name packageName, Gizmo gizmo) {
+		String prefix = useFirstPartOfCamelCaseName(className);
+		String name = prefix + className(gizmo);
+		System.out.println("Generating: ~>> " + name);
+		JavaFileObject jfo = createSourceFile(packageName + "." + name);
+		write(jfo, name, packageName, gizmo, className.toString());
 	}
 
-	private void createSource(Name template, Name pack, Target t, String extender) {
-		String prefix = pack.toString().contains("remote") ? "Remote" : "Domestic";
-		String name = prefix + className(t);
-		System.out.println("Generating: ~>>." + name);
-		JavaFileObject jfo = createSourceFile(pack + "." + name);
-		write(jfo, name, pack, t, extender);
+	private String useFirstPartOfCamelCaseName(Name name) {
+		String[] r = name.toString().split("(?=\\p{Lu})");
+		return r != null && r.length > 0 ? r[0] : "Generic";
 	}
 
 	private JavaFileObject createSourceFile(String name) {
@@ -97,7 +86,7 @@ class TemplateProcessor extends AbstractProcessor {
 		return jfo;
 	}
 
-	private String className(Target t) {
+	private String className(Gizmo t) {
 		return String.format("%s%s%s%s%s%s%sTest", legalizeName(t.os()), legalizeName(t.device()),
 				legalizeName(t.osVersion()), legalizeName(t.browserName()), legalizeName(t.browser()),
 				legalizeName(t.browserVersion()), t.realMobile() ? "RealMobile" : "");
