@@ -1,9 +1,12 @@
-package io.siv.support.annotation;
+ package io.siv.support.annotation;
+
+import java.lang.annotation.Repeatable;
 
 /**
  * Defines an environment for running cucumber tests against.
  */
-public @interface Target {
+@Repeatable(GizmoStratagem.class)
+public @interface Gizmo {
 
 	/**
 	 * Use this capability to ignore invalid certificate error in your test.
@@ -68,6 +71,12 @@ public @interface Target {
 	 * @return The appium version
 	 */
 	String appium() default "";
+	
+	/**
+	 * Specifies the Selenium WebDriver version in test scripts
+	 * @return seleniumVersion
+	 */
+	String seleniumVersion() default "";
 
 	/**
 	 * Use this to add properties not directly named by Target.
