@@ -1,18 +1,11 @@
-/*
- * Inspired by ->
- * 		https://www.baeldung.com/java-annotation-processing-builder
- * 		https://www.youtube.com/watch?v=xswPPwYPAFM
- */
 package io.siv.support.annotation;
 
 import static io.siv.support.annotation.SourceWriter.write;
 
 import java.io.IOException;
-//import java.util.Properties;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
-import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
@@ -27,21 +20,10 @@ import javax.tools.JavaFileObject;
 
 import com.google.auto.service.AutoService;
 
-//import io.siv.support.util.Loader;
-
 @SupportedAnnotationTypes({ "io.siv.support.annotation.GizmoStratagem", "io.siv.support.annotation.Gizmo" })
 @SupportedSourceVersion(SourceVersion.RELEASE_8)
 @AutoService(Processor.class)
 public class GizmoProcessor extends AbstractProcessor {
-//	@Override
-//	public synchronized void init(ProcessingEnvironment processingEnv) {
-////		super.init(processingEnv);
-////		//Properties p = Loader.propertiesForFileKey("support");
-////		//String title = p.getProperty("studio.log.title");
-////		//String warning = p.getProperty("studio.log.warning");
-////		//System.out.println(title + warning);
-//		System.out.println("ProcessingEnv: " + processingEnv);
-//	}
 
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
@@ -71,9 +53,9 @@ public class GizmoProcessor extends AbstractProcessor {
 					processed++;
 				}
 			}
-//
-//			System.out.println(processed + "(s) files processed and " + created + "(s) files created by SIV");
-////			return true;
+
+			System.out.println(processed + "(s) files processed and " + created + "(s) files created by SIV");
+			return true;
 		}
 
 		return false;
