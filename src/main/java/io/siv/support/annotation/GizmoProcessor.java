@@ -87,7 +87,7 @@ public class GizmoProcessor extends AbstractProcessor {
 	}
 
 	private String className(Gizmo t) {
-		return String.format("%s%s%s%s%s%s%sTest", legalizeName(t.os()), legalizeName(t.device()),
+		return String.format("%s%s%s%s%s%s%sRunner", legalizeName(t.os()), legalizeName(t.device()),
 				legalizeName(t.osVersion()), legalizeName(t.browserName()), legalizeName(t.browser()),
 				legalizeName(t.browserVersion()), t.realMobile() ? "RealMobile" : "");
 	}

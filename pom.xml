@@ -4,7 +4,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.github.io-siv</groupId>
 	<artifactId>support</artifactId>
-	<version>0.2.1</version>
+	<version>0.2.2</version>
 	<name>Software Studio IVV Support</name>
 	<url>https://github.com/io-siv/siv-support</url>
 	<description>Library to wrap BrowserStack and Cucumber for rapid project setup of independent verification and validation testing</description>
