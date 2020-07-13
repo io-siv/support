@@ -7,7 +7,7 @@
 <dependency>
   <groupId>com.github.io-siv</groupId>
   <artifactId>support</artifactId>
-  <version>0.2.1</version>
+  <version>0.2.4</version>
 </dependency>
 ```
 
