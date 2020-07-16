@@ -4,6 +4,8 @@ import static io.siv.support.annotation.SourceWriter.write;
 
 import java.io.IOException;
 import java.util.Set;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Processor;
@@ -27,8 +29,9 @@ public class GizmoProcessor extends AbstractProcessor {
 
 	@Override
 	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		Set<? extends Element> elements = roundEnv
-				.getElementsAnnotatedWithAny(Set.of(GizmoStratagem.class, Gizmo.class));
+		Set<? extends Element> elements = GizmoProcessor.combineSets(
+				roundEnv.getElementsAnnotatedWith(GizmoStratagem.class),
+				roundEnv.getElementsAnnotatedWith(Gizmo.class));
 
 		System.out.println("@Override process() template: " + elements);
 
@@ -59,6 +62,11 @@ public class GizmoProcessor extends AbstractProcessor {
 		}
 
 		return false;
+	}
+
+	@SafeVarargs
+	private static Set<? extends Element> combineSets(Set<? extends Element>... sets) {
+		return Stream.of(sets).flatMap(Set::stream).collect(Collectors.toSet());
 	}
 
 	private void createSource(Name className, Name packageName, Gizmo gizmo) {
